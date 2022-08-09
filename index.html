@@ -53,26 +53,30 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js" integrity="sha512-E8QSvWZ0eCLGk4km3hxSsNmGWbLtSCSUcewDQPQWZF6pEU8GlT8a5fF32wOl1i8ftdMhssTrF/OhyGWwonTcXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script type="text/javascript">
-    var pwd    = document.getElementById("password");
-    var text   = document.getElementById("text");
-    var result = document.getElementById("result");
+    function getPwd() {
+      return document.getElementById("password").value;
+    }
+    function getText() {
+      return document.getElementById("text").value;
+    }
 
     function encryptText() {
-      var value = CryptoJS.AES.encrypt(text.value, pwd.value);
+      var value = CryptoJS.AES.encrypt(getText(), getPwd());
       return value;
     }
 
     function decryptText() {
-      var value = CryptoJS.AES.decrypt(text.value, pwd.value);
+      var value = CryptoJS.AES.decrypt(getText(), getPwd());
       return value;
     }
 
     function process(encrypt) {
       var value = encrypt ? encryptText() : decryptText();
-      result.innerText = value;
+      document.getElementById("result").innerText = value;
     }
 
     function copy() {
+      var result = document.getElementById("result");
       if (!navigator.clipboard) {
             result.focus();
             result.select();
