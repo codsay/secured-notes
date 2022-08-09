@@ -1,0 +1,92 @@
+<!doctype html>
+<html data-theme="light">
+
+<head>
+  <meta charset="utf-8">
+  <title>Secured notes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
+  <style>
+    body {
+      padding: 8px;
+    }
+    .main {
+      display: flex;
+      flex-direction: row;
+      column-gap: 4px;
+    }
+    .fields, .results {
+      flex: 1;
+    }
+
+    .results div,
+    .results #results {
+      height: 100%;
+    }
+
+    .results {
+      display: flex;
+      flex-direction: row;
+      column-gap: 4px;
+    }
+
+    * {
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body class="light">
+  <div class="main">
+    <div class="fields">
+      <input type="password" id="password" placeholder="Password" required>
+      <textarea id="text" placeholder="Content" required rows="8"></textarea>
+    </div>
+    <div class="results">
+      <div class="actions">
+        <button onclick="process(true)">Encrypt</button>
+        <button onclick="process(false)" class="secondary">Decrypt</button>
+      </div>
+      <textarea id="result" placeholder="Data"></textarea>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js" integrity="sha512-E8QSvWZ0eCLGk4km3hxSsNmGWbLtSCSUcewDQPQWZF6pEU8GlT8a5fF32wOl1i8ftdMhssTrF/OhyGWwonTcXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script type="text/javascript">
+    var pwd    = document.getElementById("password");
+    var text   = document.getElementById("text");
+    var result = document.getElementById("result");
+
+    function encryptText() {
+      var value = CryptoJS.AES.encrypt(text.value, pwd.value);
+      return value;
+    }
+
+    function decryptText() {
+      var value = CryptoJS.AES.decrypt(text.value, pwd.value);
+      return value;
+    }
+
+    function process(encrypt) {
+      var value = encrypt ? encryptText() : decryptText();
+      result.innerText = value;
+    }
+
+    function copy() {
+      if (!navigator.clipboard) {
+            result.focus();
+            result.select();
+            document.execCommand('copy');
+            return;
+        }
+        navigator.clipboard.writeText(result.innerHTML);
+    }
+</script>
+  <script>
+    window.ga = function () { ga.q.push(arguments) }; ga.q = []; ga.l = +new Date;
+    ga('create', 'UA-XXXXX-Y', 'auto'); ga('set', 'anonymizeIp', true); ga('set', 'transport', 'beacon'); ga('send', 'pageview')
+  </script>
+  <script src="https://www.google-analytics.com/analytics.js" async></script>
+</body>
+
+</html>
