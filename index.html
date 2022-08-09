@@ -67,7 +67,7 @@
 
     function decryptText() {
       var value = CryptoJS.AES.decrypt(getText(), getPwd());
-      return value;
+      return value.toString(CryptoJS.enc.Utf8);
     }
 
     function process(encrypt) {
